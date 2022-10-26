@@ -5,7 +5,8 @@ import {
     Input,
     Markdown,
     customElements,
-    customModule
+    customModule,
+    Styles
 } from '@ijstech/components';
 import './markdown.css';
 import { PageBlock } from "../../pageBlock.interface";
@@ -17,6 +18,8 @@ declare global {
         }
     }
 }
+
+const Theme = Styles.Theme.ThemeVars;
 
 @customModule
 @customElements('i-section-markdown')
@@ -132,11 +135,11 @@ export class MarkdownBlock extends Module implements PageBlock {
         return (
             <i-panel id={"pnlMarkdown"} class={"markdown-container"}>
                 <i-hstack width={'100%'} height={'100%'}>
-                    <i-panel id={"txtMarkdownPnl"} width={'50%'} height={'100%'}>
+                    <i-panel id={"txtMarkdownPnl"} width={'50%'} height={'100%'} border={{ right: { color: '#6f56f9', width: '1px', style: 'solid' } }}>
                         <i-input
                             id={"txtMarkdown"} class={"markdown-input"}
                             width={'100%'} height={'100%'}
-                            inputType={'textarea'} placeholder={"Share your mind"} captionWidth={0}
+                            inputType={'textarea'} placeholder={"Enter here"} captionWidth={0} font={{size: Theme.typography.fontSize}}
                             onChanged={this.handleTxtAreaChanged}
                         ></i-input>
                     </i-panel>
