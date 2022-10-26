@@ -69,12 +69,19 @@
         }
       };
     }
+    handleTxtAreaChanged(control) {
+      console.log("txtAreaChange");
+      this.autoResize(control);
+      this.mdPreview();
+    }
     autoResize(control) {
       const rows = control.value.split("\n").length;
       const lineHeight = 85.94 / 4;
       const minHeight = 85.94;
       const calcHeight = rows * lineHeight;
       control.height = calcHeight > minHeight ? calcHeight : minHeight;
+    }
+    mdPreview() {
     }
     getData() {
       return this.data;
@@ -94,7 +101,7 @@
     async edit() {
       this.txtMarkdown.value = this.data;
       this.txtMarkdown.visible = true;
-      this.mdViewer.visible = false;
+      this.mdViewer.visible = true;
       this.autoResize(this.txtMarkdown);
     }
     async confirm() {
@@ -126,19 +133,24 @@
       return /* @__PURE__ */ this.$render("i-panel", {
         id: "pnlMarkdown",
         class: "markdown-container"
+      }, /* @__PURE__ */ this.$render("i-vstack", {
+        width: "100%",
+        height: "auto"
       }, /* @__PURE__ */ this.$render("i-input", {
         id: "txtMarkdown",
-        width: "100%",
-        height: "auto",
-        inputType: "textarea",
         class: "markdown-input",
-        onChanged: this.autoResize,
-        placeholder: "Share your mind"
+        width: "50%",
+        height: "100%",
+        inputType: "textarea",
+        placeholder: "Share your mind",
+        onChanged: this.handleTxtAreaChanged
       }), /* @__PURE__ */ this.$render("i-markdown", {
         id: "mdViewer",
         class: "markdown-viewer hidden",
+        width: "50%",
+        height: "100%",
         onDblClick: this.handleMarkdownViewerDblClick
-      }));
+      })));
     }
   };
   MarkdownBlock = __decorateClass([
