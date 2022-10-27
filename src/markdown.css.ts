@@ -2,7 +2,7 @@ import {Styles} from '@ijstech/components';
 
 const Theme = Styles.Theme.ThemeVars as any;
 
-Styles.cssRule('i-section-markdown', {
+Styles.cssRule('#pnlMarkdown', {
     $nest: {
         ".markdown-container.invalid": {
             $nest: {
@@ -10,6 +10,10 @@ Styles.cssRule('i-section-markdown', {
                     border: "2px solid #B2554D"
                 }
             }
+        },
+        "textarea": {
+            border: 'none',
+            outline: 'none'
         }
     }
 });
