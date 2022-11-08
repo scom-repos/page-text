@@ -40,7 +40,7 @@
   // src/markdown.css.ts
   var import_components = __toModule(__require("@ijstech/components"));
   var Theme = import_components.Styles.Theme.ThemeVars;
-  import_components.Styles.cssRule("i-section-markdown", {
+  import_components.Styles.cssRule("#pnlMarkdown", {
     $nest: {
       ".markdown-container.invalid": {
         $nest: {
@@ -48,11 +48,16 @@
             border: "2px solid #B2554D"
           }
         }
+      },
+      "textarea": {
+        border: "none",
+        outline: "none"
       }
     }
   });
 
   // src/markdown.tsx
+  var Theme2 = import_components2.Styles.Theme.ThemeVars;
   var MarkdownBlock = class extends import_components2.Module {
     constructor() {
       super(...arguments);
@@ -70,18 +75,19 @@
       };
     }
     handleTxtAreaChanged(control) {
-      console.log("txtAreaChange");
       this.autoResize(control);
       this.mdPreview();
     }
     autoResize(control) {
       const rows = control.value.split("\n").length;
       const lineHeight = 85.94 / 4;
-      const minHeight = 85.94;
+      const minHeight = 600;
       const calcHeight = rows * lineHeight;
       control.height = calcHeight > minHeight ? calcHeight : minHeight;
     }
     mdPreview() {
+      this.setData(this.txtMarkdown.value);
+      this.mdViewer.visible = true;
     }
     getData() {
       return this.data;
@@ -89,8 +95,6 @@
     async setData(value) {
       this.data = value;
       this.mdViewer.load(value);
-      this.mdViewer.visible = true;
-      this.txtMarkdown.visible = false;
     }
     getTag() {
       return this.tag;
@@ -99,6 +103,8 @@
       this.tag = value;
     }
     async edit() {
+      this.mdViewer.width = "50%";
+      this.txtMarkdownPnl.width = "50%";
       this.txtMarkdown.value = this.data;
       this.txtMarkdown.visible = true;
       this.mdViewer.visible = true;
@@ -108,14 +114,22 @@
       console.log("md confirm");
       this.setData(this.txtMarkdown.value);
       this.mdViewer.visible = true;
+      this.mdViewer.width = "100%";
+      this.txtMarkdownPnl.width = 0;
       this.txtMarkdown.visible = false;
+      this.tempData = this.data;
     }
     async discard() {
       if (!this.data) {
         this.txtMarkdown.value = "";
         return;
       }
+      this.data = this.tempData;
+      this.txtMarkdown.value = this.tempData;
+      this.setData(this.tempData);
       this.mdViewer.visible = true;
+      this.mdViewer.width = "100%";
+      this.txtMarkdownPnl.width = 0;
       this.txtMarkdown.visible = false;
     }
     validate() {
@@ -133,22 +147,30 @@
       return /* @__PURE__ */ this.$render("i-panel", {
         id: "pnlMarkdown",
         class: "markdown-container"
-      }, /* @__PURE__ */ this.$render("i-vstack", {
+      }, /* @__PURE__ */ this.$render("i-hstack", {
         width: "100%",
-        height: "auto"
+        height: "100%"
+      }, /* @__PURE__ */ this.$render("i-panel", {
+        id: "txtMarkdownPnl",
+        width: "50%",
+        height: "100%",
+        border: { right: { color: "#6f56f9", width: "1px", style: "solid" } }
       }, /* @__PURE__ */ this.$render("i-input", {
         id: "txtMarkdown",
         class: "markdown-input",
-        width: "50%",
+        width: "100%",
         height: "100%",
         inputType: "textarea",
-        placeholder: "Share your mind",
+        placeholder: "Enter here",
+        captionWidth: 0,
+        font: { size: Theme2.typography.fontSize },
         onChanged: this.handleTxtAreaChanged
-      }), /* @__PURE__ */ this.$render("i-markdown", {
+      })), /* @__PURE__ */ this.$render("i-markdown", {
         id: "mdViewer",
         class: "markdown-viewer hidden",
-        width: "50%",
-        height: "100%",
+        width: "auto",
+        height: "auto",
+        padding: { top: "10px", bottom: "10px", left: "10px", right: "10px" },
         onDblClick: this.handleMarkdownViewerDblClick
       })));
     }
