@@ -1,3 +1,15 @@
 {
-  "main": "{root}/markdown.js"
+  "name": "@markdown/main",
+  "version": "0.1.0",
+  "env": "",
+  "moduleDir": "src",
+  "main": "@markdown/main",
+  "modules": {
+    "@markdown/main": {
+      "path": "main"
+    },
+    "@markdown/global": {
+      "path": "global"
+    }
+  }
 }
