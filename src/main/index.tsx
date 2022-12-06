@@ -11,18 +11,9 @@ import {
 import './index.css';
 import { PageBlock } from "@markdown/global";
 
-declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            ['i-section-markdown']: MarkdownBlock;
-        }
-    }
-}
-
 const Theme = Styles.Theme.ThemeVars;
 
 @customModule
-@customElements('i-section-markdown')
 export class MarkdownBlock extends Module implements PageBlock {
     private data: any;
     private tempData: any;

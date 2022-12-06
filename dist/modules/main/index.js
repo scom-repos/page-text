@@ -123,8 +123,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
         }
     };
     MarkdownBlock = __decorate([
-        components_2.customModule,
-        components_2.customElements('i-section-markdown')
+        components_2.customModule
     ], MarkdownBlock);
     exports.MarkdownBlock = MarkdownBlock;
 });
