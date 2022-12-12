@@ -9,7 +9,7 @@ import {
     Styles
 } from '@ijstech/components';
 import './index.css';
-import { PageBlock } from "@markdown/global";
+import { PageBlock } from '@markdown/global';
 
 const Theme = Styles.Theme.ThemeVars;
 
@@ -38,7 +38,7 @@ export class MarkdownBlock extends Module implements PageBlock {
             if (event.ctrlKey && event.keyCode === 13) {
                 this.onConfirm();
             }
-        }
+        };
     }
 
     handleTxtAreaChanged(control: any) {
@@ -51,7 +51,7 @@ export class MarkdownBlock extends Module implements PageBlock {
         const lineHeight = 85.94 / 4;
         const minHeight = 600;
         const calcHeight = rows * lineHeight;
-        control.height = calcHeight > minHeight ? calcHeight : minHeight
+        control.height = calcHeight > minHeight ? calcHeight : minHeight;
     }
 
     mdPreview() {
@@ -101,7 +101,7 @@ export class MarkdownBlock extends Module implements PageBlock {
             return;
         }
         this.data = this.tempData;
-        this.txtMarkdown.value = this.tempData
+        this.txtMarkdown.value = this.tempData;
         this.setData(this.tempData);
         this.mdViewer.visible = true;
         this.mdViewer.width = '100%';
@@ -124,22 +124,26 @@ export class MarkdownBlock extends Module implements PageBlock {
 
     render() {
         return (
-            <i-panel id={"pnlMarkdown"} class={"markdown-container"}>
+            <i-panel id={'pnlMarkdown'} class={'markdown-container'}>
                 <i-hstack width={'100%'} height={'100%'}>
-                    <i-panel id={"txtMarkdownPnl"} width={'50%'} height={'100%'} border={{ right: { color: '#6f56f9', width: '1px', style: 'solid' } }}>
+                    <i-panel id={'txtMarkdownPnl'} width={'50%'} height={'100%'}
+                             border={{ right: { color: '#6f56f9', width: '1px', style: 'solid' } }}>
                         <i-input
-                            id={"txtMarkdown"} class={"markdown-input"}
+                            id={'txtMarkdown'} class={'markdown-input'}
                             width={'100%'} height={'100%'}
-                            inputType={'textarea'} placeholder={"Enter here"} captionWidth={0} font={{size: Theme.typography.fontSize}}
+                            inputType={'textarea'} placeholder={'Enter here'} captionWidth={0}
+                            font={{ size: Theme.typography.fontSize }}
                             onChanged={this.handleTxtAreaChanged}
                         ></i-input>
                     </i-panel>
-                    <i-markdown
-                        id={"mdViewer"} class={'markdown-viewer hidden'}
-                        width={'auto'} height={'auto'}
-                        padding={{ top: '10px', bottom: '10px', left: '10px', right: '10px' }}
-                        onDblClick={this.handleMarkdownViewerDblClick}
-                    ></i-markdown>
+                    <i-panel class={'container'}>
+                        <i-markdown
+                            id={'mdViewer'} class={'markdown-viewer hidden'}
+                            width={'auto'} height={'auto'}
+                            padding={{ top: '10px', bottom: '10px', left: '10px', right: '10px' }}
+                            onDblClick={this.handleMarkdownViewerDblClick}
+                        ></i-markdown>
+                    </i-panel>
                 </i-hstack>
             </i-panel>
         );

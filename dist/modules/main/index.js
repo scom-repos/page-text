@@ -8,6 +8,11 @@ define("@markdown/main/index.css.ts", ["require", "exports", "@ijstech/component
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     const Theme = components_1.Styles.Theme.ThemeVars;
+    console.log('Markdown Theme layout', Theme);
+    // const containerWidth = Theme.layout?.container?.width || '500px';
+    // const containerMaxWidth = Theme.layout?.container?.maxWidth || '500px';
+    // const containerOverflow = Theme.layout?.container?.overflow || 'auto';
+    // const containerTextAlign = Theme.layout?.container?.textAlign || 'left';
     components_1.Styles.cssRule('#pnlMarkdown', {
         $nest: {
             ".markdown-container.invalid": {
@@ -20,6 +25,13 @@ define("@markdown/main/index.css.ts", ["require", "exports", "@ijstech/component
             "textarea": {
                 border: 'none',
                 outline: 'none'
+            },
+            'i-panel.container': {
+                width: 'var(--layout-container-width)',
+                maxWidth: 'var(--layout-container-max_width)',
+                overflow: 'var(--layout-container-overflow)',
+                textAlign: 'var(--layout-container-text_align)',
+                margin: '0 auto'
             }
         }
     });
@@ -115,11 +127,12 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
             await this.onEdit();
         }
         render() {
-            return (this.$render("i-panel", { id: "pnlMarkdown", class: "markdown-container" },
+            return (this.$render("i-panel", { id: 'pnlMarkdown', class: 'markdown-container' },
                 this.$render("i-hstack", { width: '100%', height: '100%' },
-                    this.$render("i-panel", { id: "txtMarkdownPnl", width: '50%', height: '100%', border: { right: { color: '#6f56f9', width: '1px', style: 'solid' } } },
-                        this.$render("i-input", { id: "txtMarkdown", class: "markdown-input", width: '100%', height: '100%', inputType: 'textarea', placeholder: "Enter here", captionWidth: 0, font: { size: Theme.typography.fontSize }, onChanged: this.handleTxtAreaChanged })),
-                    this.$render("i-markdown", { id: "mdViewer", class: 'markdown-viewer hidden', width: 'auto', height: 'auto', padding: { top: '10px', bottom: '10px', left: '10px', right: '10px' }, onDblClick: this.handleMarkdownViewerDblClick }))));
+                    this.$render("i-panel", { id: 'txtMarkdownPnl', width: '50%', height: '100%', border: { right: { color: '#6f56f9', width: '1px', style: 'solid' } } },
+                        this.$render("i-input", { id: 'txtMarkdown', class: 'markdown-input', width: '100%', height: '100%', inputType: 'textarea', placeholder: 'Enter here', captionWidth: 0, font: { size: Theme.typography.fontSize }, onChanged: this.handleTxtAreaChanged })),
+                    this.$render("i-panel", { class: 'container' },
+                        this.$render("i-markdown", { id: 'mdViewer', class: 'markdown-viewer hidden', width: 'auto', height: 'auto', padding: { top: '10px', bottom: '10px', left: '10px', right: '10px' }, onDblClick: this.handleMarkdownViewerDblClick })))));
         }
     };
     MarkdownBlock = __decorate([
