@@ -1,6 +1,6 @@
 import {Styles} from '@ijstech/components';
 
-const Theme = Styles.Theme.ThemeVars as any;
+const Theme = Styles.Theme.ThemeVars;
 
 console.log('Markdown Theme layout', Theme);
 
@@ -24,10 +24,10 @@ Styles.cssRule('#pnlMarkdown', {
             outline: 'none'
         },
         'i-panel.container': {
-            width: 'var(--layout-container-width)',
-            maxWidth: 'var(--layout-container-max_width)',
-            overflow: 'var(--layout-container-overflow)',
-            textAlign: ('var(--layout-container-text_align)' as any),
+            width: Theme.layout.container.width,
+            maxWidth: Theme.layout.container.maxWidth,
+            overflow: Theme.layout.container.overflow,
+            textAlign: (Theme.layout.container.textAlign as any),
             margin: '0 auto'
         }
     }

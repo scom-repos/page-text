@@ -13,14 +13,41 @@ import { PageBlock } from '@markdown/global';
 
 const Theme = Styles.Theme.ThemeVars;
 
+const configSchema = {
+    type: 'object',
+    required: [],
+    properties:
+        {
+            'fontColor': {
+                type: 'string',
+                format: 'color'
+            },
+            'backgroundColor': {
+                type: 'string',
+                format: 'color'
+            },
+            'textAlign': {
+                type: 'string',
+                enum: [
+                    'left',
+                    'center',
+                    'right'
+                ]
+            }
+        }
+
+};
+
 @customModule
 export class MarkdownBlock extends Module implements PageBlock {
     private data: any;
     private tempData: any;
     private txtMarkdown: Input;
     private mdViewer: Markdown;
+    private pnlContainer: Panel;
     private pnlMarkdown: Panel;
     private txtMarkdownPnl: Panel;
+
     tag: any;
     defaultEdit: boolean = true;
 
@@ -39,6 +66,25 @@ export class MarkdownBlock extends Module implements PageBlock {
                 this.onConfirm();
             }
         };
+    }
+
+    getConfigSchema() {
+        return configSchema;
+    }
+
+    onConfigSave(config: any) {
+        this.tag = config;
+        this.updateMarkdown(config);
+    }
+
+    updateMarkdown(config: any) {
+        const {fontColor, backgroundColor, textAlign} = config;
+        if(fontColor)
+            this.mdViewer.font = {color: fontColor};
+        if(backgroundColor)
+            this.pnlContainer.background.color = backgroundColor;
+        if(textAlign)
+            this.mdViewer.style.textAlign = textAlign;
     }
 
     handleTxtAreaChanged(control: any) {
@@ -136,7 +182,7 @@ export class MarkdownBlock extends Module implements PageBlock {
                             onChanged={this.handleTxtAreaChanged}
                         ></i-input>
                     </i-panel>
-                    <i-panel class={'container'}>
+                    <i-panel class={'container'} id={'pnlContainer'}>
                         <i-markdown
                             id={'mdViewer'} class={'markdown-viewer hidden'}
                             width={'auto'} height={'auto'}

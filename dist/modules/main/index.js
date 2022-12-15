@@ -27,10 +27,10 @@ define("@markdown/main/index.css.ts", ["require", "exports", "@ijstech/component
                 outline: 'none'
             },
             'i-panel.container': {
-                width: 'var(--layout-container-width)',
-                maxWidth: 'var(--layout-container-max_width)',
-                overflow: 'var(--layout-container-overflow)',
-                textAlign: 'var(--layout-container-text_align)',
+                width: Theme.layout.container.width,
+                maxWidth: Theme.layout.container.maxWidth,
+                overflow: Theme.layout.container.overflow,
+                textAlign: Theme.layout.container.textAlign,
                 margin: '0 auto'
             }
         }
@@ -41,6 +41,28 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MarkdownBlock = void 0;
     const Theme = components_2.Styles.Theme.ThemeVars;
+    const configSchema = {
+        type: 'object',
+        required: [],
+        properties: {
+            'fontColor': {
+                type: 'string',
+                format: 'color'
+            },
+            'backgroundColor': {
+                type: 'string',
+                format: 'color'
+            },
+            'textAlign': {
+                type: 'string',
+                enum: [
+                    'left',
+                    'center',
+                    'right'
+                ]
+            }
+        }
+    };
     let MarkdownBlock = class MarkdownBlock extends components_2.Module {
         constructor() {
             super(...arguments);
@@ -56,6 +78,22 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
                     this.onConfirm();
                 }
             };
+        }
+        getConfigSchema() {
+            return configSchema;
+        }
+        onConfigSave(config) {
+            this.tag = config;
+            this.updateMarkdown(config);
+        }
+        updateMarkdown(config) {
+            const { fontColor, backgroundColor, textAlign } = config;
+            if (fontColor)
+                this.mdViewer.font = { color: fontColor };
+            if (backgroundColor)
+                this.pnlContainer.background.color = backgroundColor;
+            if (textAlign)
+                this.mdViewer.style.textAlign = textAlign;
         }
         handleTxtAreaChanged(control) {
             this.autoResize(control);
@@ -131,7 +169,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
                 this.$render("i-hstack", { width: '100%', height: '100%' },
                     this.$render("i-panel", { id: 'txtMarkdownPnl', width: '50%', height: '100%', border: { right: { color: '#6f56f9', width: '1px', style: 'solid' } } },
                         this.$render("i-input", { id: 'txtMarkdown', class: 'markdown-input', width: '100%', height: '100%', inputType: 'textarea', placeholder: 'Enter here', captionWidth: 0, font: { size: Theme.typography.fontSize }, onChanged: this.handleTxtAreaChanged })),
-                    this.$render("i-panel", { class: 'container' },
+                    this.$render("i-panel", { class: 'container', id: 'pnlContainer' },
                         this.$render("i-markdown", { id: 'mdViewer', class: 'markdown-viewer hidden', width: 'auto', height: 'auto', padding: { top: '10px', bottom: '10px', left: '10px', right: '10px' }, onDblClick: this.handleMarkdownViewerDblClick })))));
         }
     };
