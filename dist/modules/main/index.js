@@ -122,6 +122,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
         }
         async setTag(value) {
             this.tag = value;
+            this.updateMarkdown(value);
         }
         async edit() {
             this.mdViewer.width = '50%';
