@@ -120,6 +120,7 @@ export class MarkdownBlock extends Module implements PageBlock {
 
     async setTag(value: any) {
         this.tag = value;
+        this.updateMarkdown(value);
     }
 
     async edit() {
