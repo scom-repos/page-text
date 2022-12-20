@@ -1,3 +1,14 @@
+export interface IConfigSchema {
+  type: 'integer' | 'number' | 'boolean' | 'string' | 'object';
+  format?: 'date' | 'datetime' | 'color';
+  enum?: any[];
+  required?: string[];
+  properties?: {
+    [key: string]: IConfigSchema
+  };
+}
+
+
 export interface PageBlock {
   // Properties
   getData: () => any;
@@ -19,4 +30,9 @@ export interface PageBlock {
   confirm: () => Promise<void>;
   discard: () => Promise<void>;
   config?: () => Promise<void>;
+
+  // Config
+  getConfigSchema: () => Promise<IConfigSchema>
+  onConfigSave: (configData: any) => Promise<void>;
+
 }

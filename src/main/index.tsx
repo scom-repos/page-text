@@ -6,19 +6,85 @@ import {
     Markdown,
     customElements,
     customModule,
-    Styles
+    Styles,
 } from '@ijstech/components';
 import './index.css';
-import { PageBlock } from '@markdown/global';
+import { IConfigSchema, PageBlock } from '@markdown/global';
 
 const Theme = Styles.Theme.ThemeVars;
 
-const configSchema = {
+const configSchema: IConfigSchema = {
     type: 'object',
     required: [],
     properties:
         {
+            'headerFontColor': {
+                type: 'object',
+                properties: {
+                    'h1': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h2': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h3': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h4': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h5': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h6': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                }
+            },
+            'headerFontSize': {
+                type: 'object',
+                properties: {
+                    'h1': {
+                        type: 'string'
+                    },
+                    'h2': {
+                        type: 'string'
+                    },
+                    'h3': {
+                        type: 'string'
+                    },
+                    'h4': {
+                        type: 'string'
+                    },
+                    'h5': {
+                        type: 'string'
+                    },
+                    'h6': {
+                        type: 'string'
+                    }
+                }
+            },
             'fontColor': {
+                type: 'string',
+                format: 'color'
+            },
+            'fontSize': {
+                type: 'string'
+            },
+            'linkFontSize': {
+                type: 'string'
+            },
+            'linkFontColor': {
+                type: 'string',
+                format: 'color'
+            },
+            'linkBackgroundColor': {
                 type: 'string',
                 format: 'color'
             },
@@ -68,16 +134,17 @@ export class MarkdownBlock extends Module implements PageBlock {
         };
     }
 
-    getConfigSchema() {
+    async getConfigSchema(): Promise<IConfigSchema> {
         return configSchema;
     }
 
-    onConfigSave(config: any) {
+    async onConfigSave(config: any) {
         this.tag = config;
         this.updateMarkdown(config);
     }
 
     updateMarkdown(config: any) {
+        if(!config) return;
         const {fontColor, backgroundColor, textAlign} = config;
         if(fontColor)
             this.mdViewer.font = {color: fontColor};

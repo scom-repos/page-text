@@ -45,7 +45,73 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
         type: 'object',
         required: [],
         properties: {
+            'headerFontColor': {
+                type: 'object',
+                properties: {
+                    'h1': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h2': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h3': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h4': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h5': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                    'h6': {
+                        type: 'string',
+                        format: 'color'
+                    },
+                }
+            },
+            'headerFontSize': {
+                type: 'object',
+                properties: {
+                    'h1': {
+                        type: 'string'
+                    },
+                    'h2': {
+                        type: 'string'
+                    },
+                    'h3': {
+                        type: 'string'
+                    },
+                    'h4': {
+                        type: 'string'
+                    },
+                    'h5': {
+                        type: 'string'
+                    },
+                    'h6': {
+                        type: 'string'
+                    }
+                }
+            },
             'fontColor': {
+                type: 'string',
+                format: 'color'
+            },
+            'fontSize': {
+                type: 'string'
+            },
+            'linkFontSize': {
+                type: 'string'
+            },
+            'linkFontColor': {
+                type: 'string',
+                format: 'color'
+            },
+            'linkBackgroundColor': {
                 type: 'string',
                 format: 'color'
             },
@@ -87,6 +153,8 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
             this.updateMarkdown(config);
         }
         updateMarkdown(config) {
+            if (!config)
+                return;
             const { fontColor, backgroundColor, textAlign } = config;
             if (fontColor)
                 this.mdViewer.font = { color: fontColor };
