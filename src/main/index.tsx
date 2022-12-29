@@ -178,6 +178,10 @@ export class MarkdownBlock extends Module implements PageBlock {
 
     async setData(value: any) {
         this.data = value;
+        this.mdViewer.visible = true;
+        this.mdViewer.width = '100%';
+        this.txtMarkdownPnl.width = 0;
+        this.txtMarkdown.visible = false;
         this.mdViewer.load(value);
     }
 
@@ -200,7 +204,6 @@ export class MarkdownBlock extends Module implements PageBlock {
     }
 
     async confirm() {
-        console.log('md confirm');
         this.setData(this.txtMarkdown.value);
         this.mdViewer.visible = true;
         this.mdViewer.width = '100%';
@@ -252,7 +255,7 @@ export class MarkdownBlock extends Module implements PageBlock {
                     </i-panel>
                     <i-panel class={'container'} id={'pnlContainer'}>
                         <i-markdown
-                            id={'mdViewer'} class={'markdown-viewer hidden'}
+                            id={'mdViewer'} class={'markdown-viewer'}
                             width={'auto'} height={'auto'}
                             padding={{ top: '10px', bottom: '10px', left: '10px', right: '10px' }}
                             onDblClick={this.handleMarkdownViewerDblClick}

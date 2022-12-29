@@ -145,10 +145,10 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
                 }
             };
         }
-        getConfigSchema() {
+        async getConfigSchema() {
             return configSchema;
         }
-        onConfigSave(config) {
+        async onConfigSave(config) {
             this.tag = config;
             this.updateMarkdown(config);
         }
@@ -183,6 +183,10 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
         }
         async setData(value) {
             this.data = value;
+            this.mdViewer.visible = true;
+            this.mdViewer.width = '100%';
+            this.txtMarkdownPnl.width = 0;
+            this.txtMarkdown.visible = false;
             this.mdViewer.load(value);
         }
         getTag() {
@@ -201,7 +205,6 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
             this.autoResize(this.txtMarkdown);
         }
         async confirm() {
-            console.log('md confirm');
             this.setData(this.txtMarkdown.value);
             this.mdViewer.visible = true;
             this.mdViewer.width = '100%';
@@ -239,7 +242,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
                     this.$render("i-panel", { id: 'txtMarkdownPnl', width: '50%', height: '100%', border: { right: { color: '#6f56f9', width: '1px', style: 'solid' } } },
                         this.$render("i-input", { id: 'txtMarkdown', class: 'markdown-input', width: '100%', height: '100%', inputType: 'textarea', placeholder: 'Enter here', captionWidth: 0, font: { size: Theme.typography.fontSize }, onChanged: this.handleTxtAreaChanged })),
                     this.$render("i-panel", { class: 'container', id: 'pnlContainer' },
-                        this.$render("i-markdown", { id: 'mdViewer', class: 'markdown-viewer hidden', width: 'auto', height: 'auto', padding: { top: '10px', bottom: '10px', left: '10px', right: '10px' }, onDblClick: this.handleMarkdownViewerDblClick })))));
+                        this.$render("i-markdown", { id: 'mdViewer', class: 'markdown-viewer', width: 'auto', height: 'auto', padding: { top: '10px', bottom: '10px', left: '10px', right: '10px' }, onDblClick: this.handleMarkdownViewerDblClick })))));
         }
     };
     MarkdownBlock = __decorate([
