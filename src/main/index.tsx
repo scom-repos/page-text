@@ -168,8 +168,9 @@ export class MarkdownBlock extends Module implements PageBlock {
     }
 
     mdPreview() {
-        this.setData(this.txtMarkdown.value);
-        this.mdViewer.visible = true;
+        // this.setData(this.txtMarkdown.value);
+        // this.mdViewer.visible = true;
+        this.mdViewer.load(this.txtMarkdown.value);
     }
 
     getData() {

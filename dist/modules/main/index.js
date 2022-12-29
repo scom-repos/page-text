@@ -175,8 +175,9 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
             control.height = calcHeight > minHeight ? calcHeight : minHeight;
         }
         mdPreview() {
-            this.setData(this.txtMarkdown.value);
-            this.mdViewer.visible = true;
+            // this.setData(this.txtMarkdown.value);
+            // this.mdViewer.visible = true;
+            this.mdViewer.load(this.txtMarkdown.value);
         }
         getData() {
             return this.data;
