@@ -1,3 +1,9 @@
+export interface IConfig {
+  name: string;
+  type: 'config' | 'event';
+  config: IConfigSchema;
+}
+
 export interface IConfigSchema {
   type: 'integer' | 'number' | 'boolean' | 'string' | 'object';
   format?: 'date' | 'datetime' | 'color';
@@ -8,9 +14,15 @@ export interface IConfigSchema {
   };
 }
 
+export interface IEvent {
+  name: string;
+  description?: string;
+}
+
 
 export interface PageBlock {
   // Properties
+  getEvents: () => IEvent[];
   getData: () => any;
   setData: (data: any) => Promise<void>;
   getTag: () => any;
@@ -32,7 +44,7 @@ export interface PageBlock {
   config?: () => Promise<void>;
 
   // Config
-  getConfigSchema: () => Promise<IConfigSchema>
+  getConfigSchema: () => IConfigSchema;
   onConfigSave: (configData: any) => Promise<void>;
 
 }
