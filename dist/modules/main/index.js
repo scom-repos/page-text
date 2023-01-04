@@ -852,8 +852,8 @@ define("@markdown/main", ["require", "exports", "@ijstech/components"], function
         }
         getEvents() {
             return [{
-                    name: 'EVENT_TESTING',
-                    description: 'Testing event'
+                    name: 'EVENT_ON_CONFIRM',
+                    description: 'This event fires when the markdown content is confirmed.'
                 }];
         }
         getData() {

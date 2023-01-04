@@ -925,8 +925,8 @@ export class MarkdownBlock extends Module implements PageBlock {
 
     getEvents(): IEvent[] {
         return [{
-            name: 'EVENT_TESTING',
-            description: 'Testing event'
+            name: 'EVENT_ON_CONFIRM',
+            description: 'This event fires when the markdown content is confirmed.'
         }]
     }
 
