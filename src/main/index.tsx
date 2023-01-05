@@ -909,10 +909,11 @@ export class MarkdownBlock extends Module implements PageBlock {
                 cssRules["p:has(a)"]["maxWidth"] = config.link.maxWidth
         }
 
-        Styles.cssRule(`${this.tagName.toLowerCase()} i-markdown`, {
+        const customStyle = Styles.style({
             $nest: cssRules
         });
 
+        this.mdViewer.className = customStyle;
     }
 
     handleTxtAreaChanged(control: any) {

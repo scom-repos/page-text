@@ -870,9 +870,10 @@ define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdow
                 if (config.link.maxWidth)
                     cssRules["p:has(a)"]["maxWidth"] = config.link.maxWidth;
             }
-            components_2.Styles.cssRule(`${this.tagName.toLowerCase()} i-markdown`, {
+            const customStyle = components_2.Styles.style({
                 $nest: cssRules
             });
+            this.mdViewer.className = customStyle;
         }
         handleTxtAreaChanged(control) {
             this.autoResize(control);
