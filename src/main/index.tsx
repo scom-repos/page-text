@@ -6,7 +6,8 @@ import {
     Markdown,
     customElements,
     customModule,
-    Styles
+    Styles,
+    application,
 } from '@ijstech/components';
 // import './index.css';
 import { IConfigSchema, IEvent, PageBlock } from '@markdown/global';
@@ -904,7 +905,8 @@ export class MarkdownBlock extends Module implements PageBlock {
             if(config.link.maxWidth)
                 cssRules["p:has(a)"]["maxWidth"] = config.link.maxWidth
         }
-        Styles.cssRule('i-markdown', {
+
+        Styles.cssRule(`${this.tagName.toLowerCase()} i-markdown`, {
             $nest: cssRules
         });
 
@@ -974,6 +976,8 @@ export class MarkdownBlock extends Module implements PageBlock {
         // this.txtMarkdownPnl.width = 0;
         // this.txtMarkdown.visible = false;
         this.tempData = this.data;
+        application.EventBus.dispatch('EVENT_ON_CONFIRM', () => {});
+        console.log('pageblock-markdown this', this, this.parentNode);
     }
 
     async discard() {

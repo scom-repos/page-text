@@ -835,7 +835,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components"], function
                 if (config.link.maxWidth)
                     cssRules["p:has(a)"]["maxWidth"] = config.link.maxWidth;
             }
-            components_1.Styles.cssRule('i-markdown', {
+            components_1.Styles.cssRule(`${this.tagName.toLowerCase()} i-markdown`, {
                 $nest: cssRules
             });
         }
@@ -895,6 +895,8 @@ define("@markdown/main", ["require", "exports", "@ijstech/components"], function
             // this.txtMarkdownPnl.width = 0;
             // this.txtMarkdown.visible = false;
             this.tempData = this.data;
+            components_1.application.EventBus.dispatch('EVENT_ON_CONFIRM', () => { });
+            console.log('pageblock-markdown this', this, this.parentNode);
         }
         async discard() {
             if (!this.data) {
