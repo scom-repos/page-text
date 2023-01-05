@@ -9,7 +9,7 @@ import {
     Styles,
     application,
 } from '@ijstech/components';
-// import './index.css';
+import './index.css';
 import { IConfigSchema, IEvent, PageBlock } from '@markdown/global';
 
 const Theme = Styles.Theme.ThemeVars;
@@ -629,6 +629,9 @@ export class MarkdownBlock extends Module implements PageBlock {
             },
             "p:has(a)": {
 
+            },
+            "a": {
+                color: "unset"
             }
         };
         if(config.heading) {

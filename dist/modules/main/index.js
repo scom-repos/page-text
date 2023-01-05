@@ -4,11 +4,43 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define("@markdown/main", ["require", "exports", "@ijstech/components"], function (require, exports, components_1) {
+define("@markdown/main/index.css.ts", ["require", "exports", "@ijstech/components"], function (require, exports, components_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    const Theme = components_1.Styles.Theme.ThemeVars;
+    console.log('Markdown Theme layout', Theme);
+    // const containerWidth = Theme.layout?.container?.width || '500px';
+    // const containerMaxWidth = Theme.layout?.container?.maxWidth || '500px';
+    // const containerOverflow = Theme.layout?.container?.overflow || 'auto';
+    // const containerTextAlign = Theme.layout?.container?.textAlign || 'left';
+    components_1.Styles.cssRule('#pnlMarkdown', {
+        $nest: {
+            // ".markdown-container.invalid": {
+            //     $nest: {
+            //         ".markdown-input input": {
+            //             border: "2px solid #B2554D"
+            //         }
+            //     }
+            // },
+            // "textarea": {
+            //     border: 'none',
+            //     outline: 'none'
+            // },
+            'i-panel.container': {
+                width: Theme.layout.container.width,
+                maxWidth: Theme.layout.container.maxWidth,
+                overflow: Theme.layout.container.overflow,
+                textAlign: Theme.layout.container.textAlign,
+                margin: '0 auto'
+            }
+        }
+    });
+});
+define("@markdown/main", ["require", "exports", "@ijstech/components", "@markdown/main/index.css.ts"], function (require, exports, components_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MarkdownBlock = void 0;
-    const Theme = components_1.Styles.Theme.ThemeVars;
+    const Theme = components_2.Styles.Theme.ThemeVars;
     const configSchema = {
         type: 'object',
         required: [],
@@ -525,7 +557,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components"], function
             }
         }
     };
-    let MarkdownBlock = class MarkdownBlock extends components_1.Module {
+    let MarkdownBlock = class MarkdownBlock extends components_2.Module {
         constructor() {
             super(...arguments);
             this.defaultEdit = true;
@@ -559,7 +591,10 @@ define("@markdown/main", ["require", "exports", "@ijstech/components"], function
                 "h5": {},
                 "h6": {},
                 "p:not(:has(a))": {},
-                "p:has(a)": {}
+                "p:has(a)": {},
+                "a": {
+                    color: "unset"
+                }
             };
             if (config.heading) {
                 if (config.heading.h1) {
@@ -835,7 +870,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components"], function
                 if (config.link.maxWidth)
                     cssRules["p:has(a)"]["maxWidth"] = config.link.maxWidth;
             }
-            components_1.Styles.cssRule(`${this.tagName.toLowerCase()} i-markdown`, {
+            components_2.Styles.cssRule(`${this.tagName.toLowerCase()} i-markdown`, {
                 $nest: cssRules
             });
         }
@@ -895,7 +930,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components"], function
             // this.txtMarkdownPnl.width = 0;
             // this.txtMarkdown.visible = false;
             this.tempData = this.data;
-            components_1.application.EventBus.dispatch('EVENT_ON_CONFIRM', () => { });
+            components_2.application.EventBus.dispatch('EVENT_ON_CONFIRM', () => { });
             console.log('pageblock-markdown this', this, this.parentNode);
         }
         async discard() {
@@ -945,7 +980,7 @@ define("@markdown/main", ["require", "exports", "@ijstech/components"], function
         }
     };
     MarkdownBlock = __decorate([
-        components_1.customModule
+        components_2.customModule
     ], MarkdownBlock);
     exports.MarkdownBlock = MarkdownBlock;
 });
