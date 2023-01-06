@@ -6,7 +6,7 @@ export interface IConfig {
 
 export interface IConfigSchema {
   type: 'integer' | 'number' | 'boolean' | 'string' | 'object';
-  format?: 'date' | 'datetime' | 'color';
+  format?: 'date' | 'datetime' | 'color' | 'tab';
   enum?: any[];
   required?: string[];
   properties?: {
