@@ -1,4 +1,4 @@
-import { IFontSettings } from "../global/index";
+import { IConfig, IFontSettings } from "../global/index";
 
 interface IOptions {
   onUpdateBlock: () => void;
@@ -6,7 +6,7 @@ interface IOptions {
 }
 
 export class Model {
-  private _data: string = '';
+  private _data: IConfig = { value: '' };
   private _tag: IFontSettings = {};
   private _options: IOptions;
 
@@ -15,14 +15,14 @@ export class Model {
   }
 
   get data() {
-    return this._data;
+    return this._data.value;
   }
 
   set data(value: string) {
-    this._data = value;
+    this._data.value = value;
   }
 
-  setData(data: string) {
+  setData(data: IConfig) {
     this._data = data;
     this._options?.onUpdateBlock();
   }

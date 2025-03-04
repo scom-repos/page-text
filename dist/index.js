@@ -34,15 +34,15 @@ define("@scom/page-text/model/index.ts", ["require", "exports"], function (requi
     exports.Model = void 0;
     class Model {
         constructor(options) {
-            this._data = '';
+            this._data = { value: '' };
             this._tag = {};
             this._options = options;
         }
         get data() {
-            return this._data;
+            return this._data.value;
         }
         set data(value) {
-            this._data = value;
+            this._data.value = value;
         }
         setData(data) {
             this._data = data;
@@ -191,14 +191,11 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
         constructor(parent, options) {
             super(parent, options);
         }
-        getData() {
-            return this.model.data;
-        }
-        async setData(value) {
-            this.model.setData(value);
+        async setData(data) {
+            this.model.setData(data);
         }
         onUpdateBlock() {
-            this.mdViewer.load(this.getData());
+            this.mdViewer.load(this.model.data);
         }
         updateMarkdown() {
             const config = this.model.getTag();
@@ -223,7 +220,7 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
             });
             const value = this.getAttribute('value', true);
             if (value) {
-                this.setData(value);
+                this.setData({ value });
             }
         }
         render() {

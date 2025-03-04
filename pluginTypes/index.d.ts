@@ -28,6 +28,9 @@ declare module "@scom/page-text/global/interface.ts" {
             h6: IFontSettings;
         };
     }
+    export interface IConfig {
+        value: string;
+    }
 }
 /// <amd-module name="@scom/page-text/global/index.ts" />
 declare module "@scom/page-text/global/index.ts" {
@@ -35,7 +38,7 @@ declare module "@scom/page-text/global/index.ts" {
 }
 /// <amd-module name="@scom/page-text/model/index.ts" />
 declare module "@scom/page-text/model/index.ts" {
-    import { IFontSettings } from "@scom/page-text/global/index.ts";
+    import { IConfig, IFontSettings } from "@scom/page-text/global/index.ts";
     interface IOptions {
         onUpdateBlock: () => void;
         onUpdateTheme: () => void;
@@ -47,8 +50,8 @@ declare module "@scom/page-text/model/index.ts" {
         constructor(options: IOptions);
         get data(): string;
         set data(value: string);
-        setData(data: string): void;
-        getData(): string;
+        setData(data: IConfig): void;
+        getData(): IConfig;
         getTag(): IFontSettings;
         setTag(value: IFontSettings): void;
         private updateTag;
@@ -95,7 +98,6 @@ declare module "@scom/page-text" {
         private model;
         private customStyle;
         constructor(parent: Container, options: any);
-        private getData;
         private setData;
         private onUpdateBlock;
         private updateMarkdown;

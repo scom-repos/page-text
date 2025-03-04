@@ -8,6 +8,7 @@ import {
 } from '@ijstech/components';
 import { Model } from './model/index';
 import { getMarkdownStyles } from './index.css';
+import { IConfig } from './global';
 
 declare global {
     namespace JSX {
@@ -32,16 +33,12 @@ export default class ScomPageText extends Module {
         super(parent, options);
     }
 
-    private getData() {
-        return this.model.data;
-    }
-
-    private async setData(value: string) {
-        this.model.setData(value);
+    private async setData(data: IConfig) {
+        this.model.setData(data);
     }
 
     private onUpdateBlock() {
-        this.mdViewer.load(this.getData());
+        this.mdViewer.load(this.model.data);
     }
 
     private updateMarkdown() {
@@ -68,7 +65,7 @@ export default class ScomPageText extends Module {
         })
         const value = this.getAttribute('value', true);
         if (value) {
-            this.setData(value);
+            this.setData({ value });
         }
     }
 
