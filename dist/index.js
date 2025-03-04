@@ -233,7 +233,7 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
     };
     ScomPageText = __decorate([
         components_2.customModule,
-        (0, components_2.customElements)('i-scom-page-text')
+        (0, components_2.customElements)('i-page-text')
     ], ScomPageText);
     exports.default = ScomPageText;
 });

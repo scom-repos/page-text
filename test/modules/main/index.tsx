@@ -30,7 +30,7 @@ export default class Main extends Module {
 
   render() {
     return <i-vstack width={'100%'} height={'100%'} gap="1rem" margin={{top: '1rem'}}>
-      <i-scom-page-text
+      <i-page-text
         id="pageBlock1"
         value={`## Powering the New Age of CRYPTO-COMMERCE
 ### Next Generation Blockchain Protocols and Infrastructure To Bring About a New Paradigm of Commerce

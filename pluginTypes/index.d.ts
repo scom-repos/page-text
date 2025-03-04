@@ -83,7 +83,7 @@ declare module "@scom/page-text" {
     global {
         namespace JSX {
             interface IntrinsicElements {
-                ['i-scom-page-text']: ScomPageTextElement;
+                ['i-page-text']: ScomPageTextElement;
             }
         }
     }

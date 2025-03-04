@@ -12,7 +12,7 @@ import { getMarkdownStyles } from './index.css';
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            ['i-scom-page-text']: ScomPageTextElement;
+            ['i-page-text']: ScomPageTextElement;
         }
     }
 }
@@ -22,7 +22,7 @@ interface ScomPageTextElement extends ControlElement {
 }
 
 @customModule
-@customElements('i-scom-page-text')
+@customElements('i-page-text')
 export default class ScomPageText extends Module {
     private mdViewer: Markdown;
     private model: Model;
