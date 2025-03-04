@@ -28,3 +28,7 @@ export interface IConfigData {
     h6: IFontSettings;
   };
 }
+
+export interface IConfig {
+  value: string;
+}

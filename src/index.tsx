@@ -8,11 +8,12 @@ import {
 } from '@ijstech/components';
 import { Model } from './model/index';
 import { getMarkdownStyles } from './index.css';
+import { IConfig } from './global';
 
 declare global {
     namespace JSX {
         interface IntrinsicElements {
-            ['i-scom-page-text']: ScomPageTextElement;
+            ['i-page-text']: ScomPageTextElement;
         }
     }
 }
@@ -22,7 +23,7 @@ interface ScomPageTextElement extends ControlElement {
 }
 
 @customModule
-@customElements('i-scom-page-text')
+@customElements('i-page-text')
 export default class ScomPageText extends Module {
     private mdViewer: Markdown;
     private model: Model;
@@ -32,16 +33,12 @@ export default class ScomPageText extends Module {
         super(parent, options);
     }
 
-    private getData() {
-        return this.model.data;
-    }
-
-    private async setData(value: string) {
-        this.model.setData(value);
+    private async setData(data: IConfig) {
+        this.model.setData(data);
     }
 
     private onUpdateBlock() {
-        this.mdViewer.load(this.getData());
+        this.mdViewer.load(this.model.data);
     }
 
     private updateMarkdown() {
@@ -68,7 +65,7 @@ export default class ScomPageText extends Module {
         })
         const value = this.getAttribute('value', true);
         if (value) {
-            this.setData(value);
+            this.setData({ value });
         }
     }
 
