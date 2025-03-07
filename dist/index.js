@@ -42,9 +42,12 @@ define("@scom/page-text/model/index.ts", ["require", "exports"], function (requi
             return this._data.value;
         }
         set data(value) {
-            this._data.value = value;
+            this._data.value = value ? value.replace('Â©', '©') : '';
         }
         setData(data) {
+            if (data?.value) {
+                data.value = data.value.replace('Â©', '©');
+            }
             this._data = data;
             this._options?.onUpdateBlock();
         }
@@ -142,13 +145,7 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
             cssRules['.toastui-editor-contents']['backgroundColor'] = backgroundColor;
         }
         if (fontSize) {
-            cssRules['h1']['fontSize'] = fontSize;
-            cssRules['h2']['fontSize'] = fontSize;
-            cssRules['h3']['fontSize'] = fontSize;
-            cssRules['h4']['fontSize'] = fontSize;
-            cssRules['h5']['fontSize'] = fontSize;
-            cssRules['h6']['fontSize'] = fontSize;
-            cssRules['p']['fontSize'] = fontSize;
+            setValue(cssRules, 'fontSize', fontSize);
         }
         if (color) {
             cssRules['.toastui-editor-contents']['color'] = color;
@@ -166,16 +163,16 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
             cssRules['.toastui-editor-contents']['paddingRight'] = padding.right;
         }
         if (margin?.top) {
-            cssRules['.toastui-editor-contents']['marginTop'] = margin.top;
+            setValue(cssRules, 'marginTop', margin.top);
         }
         if (margin?.bottom) {
-            cssRules['.toastui-editor-contents']['marginBottom'] = margin.bottom;
+            setValue(cssRules, 'marginBottom', margin.bottom);
         }
         if (margin?.left) {
-            cssRules['.toastui-editor-contents']['marginLeft'] = margin.left;
+            setValue(cssRules, 'marginLeft', margin.left);
         }
         if (margin?.right) {
-            cssRules['.toastui-editor-contents']['marginRight'] = margin.right;
+            setValue(cssRules, 'marginRight', margin.right);
         }
         const customStyle = components_1.Styles.style({
             $nest: cssRules
@@ -183,6 +180,15 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
         return customStyle;
     };
     exports.getMarkdownStyles = getMarkdownStyles;
+    function setValue(cssRules, key, value) {
+        cssRules['h1'][key] = value;
+        cssRules['h2'][key] = value;
+        cssRules['h3'][key] = value;
+        cssRules['h4'][key] = value;
+        cssRules['h5'][key] = value;
+        cssRules['h6'][key] = value;
+        cssRules['p'][key] = value;
+    }
 });
 define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/page-text/model/index.ts", "@scom/page-text/index.css.ts"], function (require, exports, components_2, index_1, index_css_1) {
     "use strict";
@@ -225,7 +231,7 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
         }
         render() {
             return (this.$render("i-panel", { id: 'pnlViewer' },
-                this.$render("i-markdown", { id: 'mdViewer', width: '100%', height: '100%', padding: { top: '10px', bottom: '10px', left: '10px', right: '10px' }, theme: 'dark' })));
+                this.$render("i-markdown", { id: 'mdViewer', width: '100%', height: '100%', theme: 'dark' })));
         }
     };
     ScomPageText = __decorate([

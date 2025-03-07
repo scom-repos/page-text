@@ -58,13 +58,7 @@ export const getMarkdownStyles = (config: IFontSettings) => {
     }
 
     if (fontSize) {
-        cssRules['h1']['fontSize'] = fontSize;
-        cssRules['h2']['fontSize'] = fontSize;
-        cssRules['h3']['fontSize'] = fontSize;
-        cssRules['h4']['fontSize'] = fontSize;
-        cssRules['h5']['fontSize'] = fontSize;
-        cssRules['h6']['fontSize'] = fontSize;
-        cssRules['p']['fontSize'] = fontSize;
+        setValue(cssRules, 'fontSize', fontSize);
     }
 
     if (color) {
@@ -85,16 +79,16 @@ export const getMarkdownStyles = (config: IFontSettings) => {
     }
 
     if (margin?.top) {
-        cssRules['.toastui-editor-contents']['marginTop'] = margin.top;
+        setValue(cssRules, 'marginTop', margin.top);
     }
     if (margin?.bottom) {
-        cssRules['.toastui-editor-contents']['marginBottom'] = margin.bottom;
+        setValue(cssRules, 'marginBottom', margin.bottom);
     }
     if (margin?.left) {
-        cssRules['.toastui-editor-contents']['marginLeft'] = margin.left;
+        setValue(cssRules, 'marginLeft', margin.left);
     }
     if (margin?.right) {
-        cssRules['.toastui-editor-contents']['marginRight'] = margin.right;
+        setValue(cssRules, 'marginRight', margin.right);
     }
 
     const customStyle = Styles.style({
@@ -102,4 +96,14 @@ export const getMarkdownStyles = (config: IFontSettings) => {
     });
 
     return customStyle;
+}
+
+function setValue(cssRules: any, key: string, value: string) {
+    cssRules['h1'][key] = value;
+    cssRules['h2'][key] = value;
+    cssRules['h3'][key] = value;
+    cssRules['h4'][key] = value;
+    cssRules['h5'][key] = value;
+    cssRules['h6'][key] = value;
+    cssRules['p'][key] = value;
 }

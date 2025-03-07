@@ -19,10 +19,13 @@ export class Model {
   }
 
   set data(value: string) {
-    this._data.value = value;
+    this._data.value = value ? value.replace('Â©', '©') : '';
   }
 
   setData(data: IConfig) {
+    if (data?.value) {
+      data.value = data.value.replace('Â©', '©');
+    }
     this._data = data;
     this._options?.onUpdateBlock();
   }
