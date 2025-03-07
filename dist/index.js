@@ -129,17 +129,18 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
             'a': {
                 color: 'unset'
             },
-            '.toastui-editor-contents': {}
+            '.toastui-editor-contents': {},
+            'hr': {}
         };
-        const { color, fontSize, textAlign, backgroundColor, padding, margin, width, maxWidth, } = config;
+        const { color, fontSize, textAlign, backgroundColor, padding, margin, width, maxWidth, borderColor, borderWidth, textTransform, borderHeight, borderMargin } = config;
         if (textAlign) {
             cssRules['.toastui-editor-contents']['textAlign'] = textAlign;
         }
         if (maxWidth) {
-            cssRules['.toastui-editor-contents']['maxWidth'] = maxWidth;
+            cssRules['.toastui-editor-contents']['maxWidth'] = getValue(maxWidth);
         }
         if (width) {
-            cssRules['.toastui-editor-contents']['width'] = width;
+            cssRules['.toastui-editor-contents']['width'] = getValue(width);
         }
         if (backgroundColor) {
             cssRules['.toastui-editor-contents']['backgroundColor'] = backgroundColor;
@@ -151,16 +152,16 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
             cssRules['.toastui-editor-contents']['color'] = color;
         }
         if (padding?.top) {
-            cssRules['.toastui-editor-contents']['paddingTop'] = padding.top;
+            cssRules['.toastui-editor-contents']['paddingTop'] = getValue(padding.top);
         }
         if (padding?.bottom) {
-            cssRules['.toastui-editor-contents']['paddingBottom'] = padding.bottom;
+            cssRules['.toastui-editor-contents']['paddingBottom'] = getValue(padding.bottom);
         }
         if (padding?.left) {
-            cssRules['.toastui-editor-contents']['paddingLeft'] = padding.left;
+            cssRules['.toastui-editor-contents']['paddingLeft'] = getValue(padding.left);
         }
         if (padding?.right) {
-            cssRules['.toastui-editor-contents']['paddingRight'] = padding.right;
+            cssRules['.toastui-editor-contents']['paddingRight'] = getValue(padding.right);
         }
         if (margin?.top) {
             setValue(cssRules, 'marginTop', margin.top);
@@ -174,13 +175,42 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
         if (margin?.right) {
             setValue(cssRules, 'marginRight', margin.right);
         }
+        if (textTransform) {
+            setValue(cssRules, 'textTransform', textTransform);
+        }
+        if (borderColor) {
+            cssRules['hr']['backgroundColor'] = borderColor;
+            cssRules['hr']['borderColor'] = 'transparent';
+        }
+        if (borderWidth !== undefined) {
+            cssRules['hr']['width'] = getValue(borderWidth);
+        }
+        if (borderHeight !== undefined) {
+            cssRules['hr']['height'] = getValue(borderHeight);
+        }
+        if (borderMargin?.top) {
+            cssRules['hr']['marginTop'] = getValue(borderMargin.top);
+        }
+        if (borderMargin?.bottom) {
+            cssRules['hr']['marginBottom'] = getValue(borderMargin.bottom);
+        }
+        if (borderMargin?.left) {
+            cssRules['hr']['marginLeft'] = getValue(borderMargin.left);
+        }
+        if (borderMargin?.right) {
+            cssRules['hr']['marginRight'] = getValue(borderMargin.right);
+        }
         const customStyle = components_1.Styles.style({
             $nest: cssRules
         });
         return customStyle;
     };
     exports.getMarkdownStyles = getMarkdownStyles;
+    function getValue(value) {
+        return typeof value === 'number' ? `${value}px` : value;
+    }
     function setValue(cssRules, key, value) {
+        value = getValue(value);
         cssRules['h1'][key] = value;
         cssRules['h2'][key] = value;
         cssRules['h3'][key] = value;

@@ -1,10 +1,10 @@
 /// <amd-module name="@scom/page-text/global/interface.ts" />
 declare module "@scom/page-text/global/interface.ts" {
     export interface IMPSettings {
-        left: string;
-        right: string;
-        top: string;
-        bottom: string;
+        left: string | number;
+        right: string | number;
+        top: string | number;
+        bottom: string | number;
     }
     export interface IFontSettings {
         color?: string;
@@ -13,20 +13,13 @@ declare module "@scom/page-text/global/interface.ts" {
         backgroundColor?: string;
         padding?: IMPSettings;
         margin?: IMPSettings;
-        width?: string;
-        maxWidth?: string;
-    }
-    export interface IConfigData {
-        paragraph: IFontSettings;
-        link: IFontSettings;
-        heading: {
-            h1: IFontSettings;
-            h2: IFontSettings;
-            h3: IFontSettings;
-            h4: IFontSettings;
-            h5: IFontSettings;
-            h6: IFontSettings;
-        };
+        width?: string | number;
+        maxWidth?: string | number;
+        textTransform?: string;
+        borderColor?: string;
+        borderWidth?: string | number;
+        borderHeight?: string | number;
+        borderMargin?: IMPSettings;
     }
     export interface IConfig {
         value: string;
