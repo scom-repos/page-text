@@ -75,7 +75,6 @@ export default class ScomPageText extends Module {
                 <i-markdown
                     id={'mdViewer'}
                     width={'100%'} height={'100%'}
-                    padding={{ top: '10px', bottom: '10px', left: '10px', right: '10px' }}
                     theme='dark'
                 ></i-markdown>
             </i-panel>
