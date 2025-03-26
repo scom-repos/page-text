@@ -23,7 +23,17 @@ interface ScomPageTextElement extends ControlElement {
 }
 
 @customModule
-@customElements('i-page-text')
+@customElements('i-page-text', {
+    icon: 'stop',
+    props: {
+        value: {
+            type: 'string',
+            default: ''
+        }
+    },
+    className: 'ScomPageText',
+    events: {}
+})
 export default class ScomPageText extends Module {
     private mdViewer: Markdown;
     private model: Model;
@@ -64,8 +74,12 @@ export default class ScomPageText extends Module {
             onUpdateTheme: this.updateMarkdown
         })
         const value = this.getAttribute('value', true);
+        const tag = this.getAttribute('tag', true);
         if (value) {
             this.setData({ value });
+        }
+        if (tag) {
+            this.model.setTag(tag);
         }
     }
 

@@ -255,8 +255,12 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
                 onUpdateTheme: this.updateMarkdown
             });
             const value = this.getAttribute('value', true);
+            const tag = this.getAttribute('tag', true);
             if (value) {
                 this.setData({ value });
+            }
+            if (tag) {
+                this.model.setTag(tag);
             }
         }
         render() {
@@ -266,7 +270,17 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
     };
     ScomPageText = __decorate([
         components_2.customModule,
-        (0, components_2.customElements)('i-page-text')
+        (0, components_2.customElements)('i-page-text', {
+            icon: 'stop',
+            props: {
+                value: {
+                    type: 'string',
+                    default: ''
+                }
+            },
+            className: 'ScomPageText',
+            events: {}
+        })
     ], ScomPageText);
     exports.default = ScomPageText;
 });
