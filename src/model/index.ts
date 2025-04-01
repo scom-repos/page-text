@@ -1,4 +1,4 @@
-import { IConfig, IFontSettings } from "../global/index";
+import { IConfig, IFontSettings } from "../interface";
 
 interface IOptions {
   onUpdateBlock: () => void;
@@ -20,6 +20,7 @@ export class Model {
 
   set data(value: string) {
     this._data.value = value ? value.replace('Â©', '©') : '';
+    this._options?.onUpdateBlock();
   }
 
   setData(data: IConfig) {
@@ -39,22 +40,8 @@ export class Model {
   }
 
   setTag(value: IFontSettings) {
-    // const newValue = value || {};
-    // for (let prop in newValue) {
-    //   if (newValue.hasOwnProperty(prop)) {
-    //     if (prop === 'light' || prop === 'dark') this.updateTag(prop, newValue[prop]);
-    //     else this._tag[prop] = newValue[prop];
-    //   }
-    // }
     this._tag = value;
     this._options?.onUpdateTheme();
-  }
-
-  private updateTag(type: 'light' | 'dark', value: any) {
-    this._tag[type] = this._tag[type] ?? {};
-    for (let prop in value) {
-      if (value.hasOwnProperty(prop)) this._tag[type][prop] = value[prop];
-    }
   }
 
   getConfigurators() {

@@ -8,7 +8,7 @@ import {
 } from '@ijstech/components';
 import { Model } from './model/index';
 import { getMarkdownStyles } from './index.css';
-import { IConfig } from './global';
+import { IConfig } from './interface';
 
 declare global {
     namespace JSX {
@@ -26,7 +26,7 @@ interface ScomPageTextElement extends ControlElement {
 @customElements('i-page-text', {
     icon: 'stop',
     props: {
-        value: {
+        data: {
             type: 'string',
             default: ''
         }
@@ -41,6 +41,14 @@ export default class ScomPageText extends Module {
 
     constructor(parent: Container, options: any) {
         super(parent, options);
+    }
+
+    get data() {
+        return this.model.data;
+    }
+
+    set data(value: string) {
+        this.model.data = value;
     }
 
     private async setData(data: IConfig) {

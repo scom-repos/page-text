@@ -1,5 +1,5 @@
 import {Styles} from '@ijstech/components';
-import { IFontSettings } from './global/index';
+import { IFontSettings } from './interface';
 
 const Theme = Styles.Theme.ThemeVars;
 
@@ -32,17 +32,15 @@ export const getMarkdownStyles = (config: IFontSettings) => {
     };
 
     const {
-        color,
-        fontSize,
+        font,
         textAlign,
-        backgroundColor,
+        background,
         padding,
         margin,
         width,
         maxWidth,
-        borderColor,
         borderWidth,
-        textTransform,
+        borderColor,
         borderHeight,
         borderMargin
     } = config;
@@ -59,16 +57,20 @@ export const getMarkdownStyles = (config: IFontSettings) => {
         cssRules['.toastui-editor-contents']['width'] = getValue(width);
     }
 
-    if (backgroundColor) {
-        cssRules['.toastui-editor-contents']['backgroundColor'] = backgroundColor;
+    if (background?.color) {
+        cssRules['.toastui-editor-contents']['backgroundColor'] = background.color;
     }
 
-    if (fontSize) {
-        setValue(cssRules, 'fontSize', fontSize);
+    if (font?.size) {
+        setValue(cssRules, 'fontSize', font.size);
     }
 
-    if (color) {
-        cssRules['.toastui-editor-contents']['color'] = color;
+    if (font?.color) {
+        cssRules['.toastui-editor-contents']['color'] = font?.color;
+    }
+
+    if (font?.transform) {
+        setValue(cssRules, 'textTransform', font.transform);
     }
 
     if (padding?.top) {
@@ -95,10 +97,6 @@ export const getMarkdownStyles = (config: IFontSettings) => {
     }
     if (margin?.right) {
         setValue(cssRules, 'marginRight', margin.right);
-    }
-
-    if (textTransform) {
-        setValue(cssRules, 'textTransform', textTransform);
     }
 
     if (borderColor) {
