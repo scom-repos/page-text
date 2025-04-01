@@ -1,37 +1,29 @@
-/// <amd-module name="@scom/page-text/global/interface.ts" />
-declare module "@scom/page-text/global/interface.ts" {
-    export interface IMPSettings {
-        left: string | number;
-        right: string | number;
-        top: string | number;
-        bottom: string | number;
-    }
+/// <amd-module name="@scom/page-text/interface.ts" />
+declare module "@scom/page-text/interface.ts" {
+    import { IFont, ISpace } from "@ijstech/components";
     export interface IFontSettings {
-        color?: string;
-        fontSize?: string;
+        background?: {
+            color?: string;
+            image?: string;
+        };
+        font?: IFont;
         textAlign?: string;
-        backgroundColor?: string;
-        padding?: IMPSettings;
-        margin?: IMPSettings;
+        padding?: ISpace;
+        margin?: ISpace;
         width?: string | number;
         maxWidth?: string | number;
-        textTransform?: string;
-        borderColor?: string;
         borderWidth?: string | number;
+        borderColor?: string;
         borderHeight?: string | number;
-        borderMargin?: IMPSettings;
+        borderMargin?: ISpace;
     }
     export interface IConfig {
-        value: string;
+        value?: string;
     }
-}
-/// <amd-module name="@scom/page-text/global/index.ts" />
-declare module "@scom/page-text/global/index.ts" {
-    export * from "@scom/page-text/global/interface.ts";
 }
 /// <amd-module name="@scom/page-text/model/index.ts" />
 declare module "@scom/page-text/model/index.ts" {
-    import { IConfig, IFontSettings } from "@scom/page-text/global/index.ts";
+    import { IConfig, IFontSettings } from "@scom/page-text/interface.ts";
     interface IOptions {
         onUpdateBlock: () => void;
         onUpdateTheme: () => void;
@@ -47,7 +39,6 @@ declare module "@scom/page-text/model/index.ts" {
         getData(): IConfig;
         getTag(): IFontSettings;
         setTag(value: IFontSettings): void;
-        private updateTag;
         getConfigurators(): ({
             name: string;
             target: string;
@@ -69,7 +60,7 @@ declare module "@scom/page-text/model/index.ts" {
 }
 /// <amd-module name="@scom/page-text/index.css.ts" />
 declare module "@scom/page-text/index.css.ts" {
-    import { IFontSettings } from "@scom/page-text/global/index.ts";
+    import { IFontSettings } from "@scom/page-text/interface.ts";
     export const containerStyles: string;
     export const getMarkdownStyles: (config: IFontSettings) => string;
 }
@@ -91,6 +82,8 @@ declare module "@scom/page-text" {
         private model;
         private customStyle;
         constructor(parent: Container, options: any);
+        get data(): string;
+        set data(value: string);
         private setData;
         private onUpdateBlock;
         private updateMarkdown;

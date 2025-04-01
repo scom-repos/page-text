@@ -1,32 +1,12 @@
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-define("@scom/page-text/global/interface.ts", ["require", "exports"], function (require, exports) {
+define("@scom/page-text/interface.ts", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-});
-define("@scom/page-text/global/index.ts", ["require", "exports", "@scom/page-text/global/interface.ts"], function (require, exports, interface_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    ///<amd-module name='@scom/page-text/global/index.ts'/> 
-    __exportStar(interface_1, exports);
 });
 define("@scom/page-text/model/index.ts", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -43,6 +23,7 @@ define("@scom/page-text/model/index.ts", ["require", "exports"], function (requi
         }
         set data(value) {
             this._data.value = value ? value.replace('Â©', '©') : '';
+            this._options?.onUpdateBlock();
         }
         setData(data) {
             if (data?.value) {
@@ -58,22 +39,8 @@ define("@scom/page-text/model/index.ts", ["require", "exports"], function (requi
             return this._tag;
         }
         setTag(value) {
-            // const newValue = value || {};
-            // for (let prop in newValue) {
-            //   if (newValue.hasOwnProperty(prop)) {
-            //     if (prop === 'light' || prop === 'dark') this.updateTag(prop, newValue[prop]);
-            //     else this._tag[prop] = newValue[prop];
-            //   }
-            // }
             this._tag = value;
             this._options?.onUpdateTheme();
-        }
-        updateTag(type, value) {
-            this._tag[type] = this._tag[type] ?? {};
-            for (let prop in value) {
-                if (value.hasOwnProperty(prop))
-                    this._tag[type][prop] = value[prop];
-            }
         }
         getConfigurators() {
             return [
@@ -132,7 +99,7 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
             '.toastui-editor-contents': {},
             'hr': {}
         };
-        const { color, fontSize, textAlign, backgroundColor, padding, margin, width, maxWidth, borderColor, borderWidth, textTransform, borderHeight, borderMargin } = config;
+        const { font, textAlign, background, padding, margin, width, maxWidth, borderWidth, borderColor, borderHeight, borderMargin } = config;
         if (textAlign) {
             cssRules['.toastui-editor-contents']['textAlign'] = textAlign;
         }
@@ -142,14 +109,17 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
         if (width) {
             cssRules['.toastui-editor-contents']['width'] = getValue(width);
         }
-        if (backgroundColor) {
-            cssRules['.toastui-editor-contents']['backgroundColor'] = backgroundColor;
+        if (background?.color) {
+            cssRules['.toastui-editor-contents']['backgroundColor'] = background.color;
         }
-        if (fontSize) {
-            setValue(cssRules, 'fontSize', fontSize);
+        if (font?.size) {
+            setValue(cssRules, 'fontSize', font.size);
         }
-        if (color) {
-            cssRules['.toastui-editor-contents']['color'] = color;
+        if (font?.color) {
+            cssRules['.toastui-editor-contents']['color'] = font?.color;
+        }
+        if (font?.transform) {
+            setValue(cssRules, 'textTransform', font.transform);
         }
         if (padding?.top) {
             cssRules['.toastui-editor-contents']['paddingTop'] = getValue(padding.top);
@@ -174,9 +144,6 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
         }
         if (margin?.right) {
             setValue(cssRules, 'marginRight', margin.right);
-        }
-        if (textTransform) {
-            setValue(cssRules, 'textTransform', textTransform);
         }
         if (borderColor) {
             cssRules['hr']['backgroundColor'] = borderColor;
@@ -227,6 +194,12 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
         constructor(parent, options) {
             super(parent, options);
         }
+        get data() {
+            return this.model.data;
+        }
+        set data(value) {
+            this.model.data = value;
+        }
         async setData(data) {
             this.model.setData(data);
         }
@@ -273,7 +246,7 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
         (0, components_2.customElements)('i-page-text', {
             icon: 'stop',
             props: {
-                value: {
+                data: {
                     type: 'string',
                     default: ''
                 }
