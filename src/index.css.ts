@@ -143,3 +143,11 @@ function setValue(cssRules: any, key: string, value: string|number) {
     cssRules['h6'][key] = value;
     cssRules['p'][key] = value;
 }
+
+export const customListStyles = Styles.style({
+    $nest: {
+        'ul': {
+            marginTop: "0px"
+        }
+    }
+});

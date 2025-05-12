@@ -7,7 +7,7 @@ import {
     Container
 } from '@ijstech/components';
 import { Model } from './model/index';
-import { getMarkdownStyles } from './index.css';
+import { customListStyles, getMarkdownStyles } from './index.css';
 import { IConfig } from './interface';
 
 declare global {
@@ -66,7 +66,7 @@ export default class ScomPageText extends Module {
         }
         if (!config) return;
         this.customStyle = getMarkdownStyles(config);
-        this.mdViewer.classList.add(this.customStyle);
+        this.mdViewer.classList.add(this.customStyle, customListStyles);
     }
 
     getConfigurators() {

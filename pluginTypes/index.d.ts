@@ -63,6 +63,7 @@ declare module "@scom/page-text/index.css.ts" {
     import { IFontSettings } from "@scom/page-text/interface.ts";
     export const containerStyles: string;
     export const getMarkdownStyles: (config: IFontSettings) => string;
+    export const customListStyles: string;
 }
 /// <amd-module name="@scom/page-text" />
 declare module "@scom/page-text" {
