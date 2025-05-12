@@ -28,7 +28,8 @@ export const getMarkdownStyles = (config: IFontSettings) => {
             color: 'unset'
         },
         '.toastui-editor-contents': {},
-        'hr': {}
+        'hr': {},
+        "ul": {}
     };
 
     const {
@@ -142,4 +143,13 @@ function setValue(cssRules: any, key: string, value: string|number) {
     cssRules['h5'][key] = value;
     cssRules['h6'][key] = value;
     cssRules['p'][key] = value;
+    cssRules['ul'][key] = value;
 }
+
+export const customListStyles = Styles.style({
+    $nest: {
+        'ul': {
+            marginTop: "0px"
+        }
+    }
+});
