@@ -71,7 +71,7 @@ define("@scom/page-text/model/index.ts", ["require", "exports"], function (requi
 define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/components"], function (require, exports, components_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.getMarkdownStyles = exports.containerStyles = void 0;
+    exports.customListStyles = exports.getMarkdownStyles = exports.containerStyles = void 0;
     const Theme = components_1.Styles.Theme.ThemeVars;
     exports.containerStyles = components_1.Styles.style({
         $nest: {
@@ -97,7 +97,8 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
                 color: 'unset'
             },
             '.toastui-editor-contents': {},
-            'hr': {}
+            'hr': {},
+            "ul": {}
         };
         const { font, textAlign, background, padding, margin, width, maxWidth, borderWidth, borderColor, borderHeight, borderMargin } = config;
         if (textAlign) {
@@ -185,7 +186,15 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
         cssRules['h5'][key] = value;
         cssRules['h6'][key] = value;
         cssRules['p'][key] = value;
+        cssRules['ul'][key] = value;
     }
+    exports.customListStyles = components_1.Styles.style({
+        $nest: {
+            'ul': {
+                marginTop: "0px"
+            }
+        }
+    });
 });
 define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/page-text/model/index.ts", "@scom/page-text/index.css.ts"], function (require, exports, components_2, index_1, index_css_1) {
     "use strict";
@@ -214,7 +223,7 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
             if (!config)
                 return;
             this.customStyle = (0, index_css_1.getMarkdownStyles)(config);
-            this.mdViewer.classList.add(this.customStyle);
+            this.mdViewer.classList.add(index_css_1.customListStyles, this.customStyle);
         }
         getConfigurators() {
             return this.model.getConfigurators();
