@@ -16,6 +16,7 @@ declare module "@scom/page-text/interface.ts" {
         borderColor?: string;
         borderHeight?: string | number;
         borderMargin?: ISpace;
+        viewer?: boolean;
     }
     export interface IConfig {
         value?: string;
@@ -35,6 +36,7 @@ declare module "@scom/page-text/model/index.ts" {
         constructor(options: IOptions);
         get data(): string;
         set data(value: string);
+        get tag(): IFontSettings;
         setData(data: IConfig): void;
         getData(): IConfig;
         getTag(): IFontSettings;
@@ -64,6 +66,7 @@ declare module "@scom/page-text/index.css.ts" {
     export const containerStyles: string;
     export const getMarkdownStyles: (config: IFontSettings) => string;
     export const customListStyles: string;
+    export const customEditorStyle: string;
 }
 /// <amd-module name="@scom/page-text" />
 declare module "@scom/page-text" {
@@ -80,14 +83,18 @@ declare module "@scom/page-text" {
     }
     export default class ScomPageText extends Module {
         private mdViewer;
+        private mdEditor;
         private model;
         private customStyle;
         constructor(parent: Container, options: any);
         get data(): string;
         set data(value: string);
+        get viewer(): boolean;
         private setData;
         private onUpdateBlock;
         private updateMarkdown;
+        private handleDbClick;
+        private toggleEditor;
         getConfigurators(): ({
             name: string;
             target: string;
@@ -105,6 +112,7 @@ declare module "@scom/page-text" {
             setTag: any;
             getActions?: undefined;
         })[];
+        private createButton;
         init(): Promise<void>;
         render(): any;
     }

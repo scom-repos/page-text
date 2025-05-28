@@ -25,6 +25,9 @@ define("@scom/page-text/model/index.ts", ["require", "exports"], function (requi
             this._data.value = value ? value.replace('Â©', '©') : '';
             this._options?.onUpdateBlock();
         }
+        get tag() {
+            return this._tag;
+        }
         setData(data) {
             if (data?.value) {
                 data.value = data.value.replace('Â©', '©');
@@ -71,7 +74,7 @@ define("@scom/page-text/model/index.ts", ["require", "exports"], function (requi
 define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/components"], function (require, exports, components_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.customListStyles = exports.getMarkdownStyles = exports.containerStyles = void 0;
+    exports.customEditorStyle = exports.customListStyles = exports.getMarkdownStyles = exports.containerStyles = void 0;
     const Theme = components_1.Styles.Theme.ThemeVars;
     exports.containerStyles = components_1.Styles.style({
         $nest: {
@@ -195,10 +198,18 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
             }
         }
     });
+    exports.customEditorStyle = components_1.Styles.style({
+        $nest: {
+            '.toastui-editor-contents': {
+                cursor: 'text'
+            }
+        }
+    });
 });
 define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/page-text/model/index.ts", "@scom/page-text/index.css.ts"], function (require, exports, components_2, index_1, index_css_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    const Theme = components_2.Styles.Theme.ThemeVars;
     let ScomPageText = class ScomPageText extends components_2.Module {
         constructor(parent, options) {
             super(parent, options);
@@ -208,6 +219,9 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
         }
         set data(value) {
             this.model.data = value;
+        }
+        get viewer() {
+            return this.model.tag?.viewer ?? true;
         }
         async setData(data) {
             this.model.setData(data);
@@ -225,11 +239,50 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
             this.customStyle = (0, index_css_1.getMarkdownStyles)(config);
             this.mdViewer.classList.add(index_css_1.customListStyles, this.customStyle);
         }
+        handleDbClick() {
+            if (this.viewer)
+                return;
+            this.toggleEditor(true);
+            this.mdEditor.value = this.model.data;
+        }
+        toggleEditor(value) {
+            this.mdViewer.visible = !value;
+            this.mdEditor.visible = value;
+            if (value) {
+                this.mdEditor.focus();
+            }
+        }
         getConfigurators() {
             return this.model.getConfigurators();
         }
+        createButton(type) {
+            const isCancel = type === 'cancel';
+            const button = document.createElement('i-button');
+            button.icon = new components_2.Icon(undefined, { name: isCancel ? 'times' : 'check', fill: isCancel ? Theme.colors.error.main : Theme.colors.success.main, width: 12, height: 12 }),
+                button.boxShadow = 'none';
+            button.background = { color: 'transparent' };
+            button.padding = { left: "0.5rem", right: "0.5rem", top: "0.5rem", bottom: "0.5rem" };
+            button.width = "auto";
+            button.height = '100%';
+            button.border = { width: 0 };
+            button.onClick = (target, event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                this.toggleEditor(false);
+                if (!isCancel) {
+                    const newVal = this.mdEditor?.getMarkdownValue();
+                    this.data = newVal;
+                    this._setDesignPropValue('value', newVal);
+                    const designer = this.closest('i-scom-designer');
+                    if (designer)
+                        designer.renderMD();
+                }
+            };
+            return button;
+        }
         async init() {
             super.init();
+            this.maxWidth = "100%";
             this.onUpdateBlock = this.onUpdateBlock.bind(this);
             this.updateMarkdown = this.updateMarkdown.bind(this);
             this.model = new index_1.Model({
@@ -244,10 +297,40 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
             if (tag) {
                 this.model.setTag(tag);
             }
+            this.mdEditor.toolbarItems = [
+                [{
+                        el: this.createButton('confirm'),
+                        tooltip: 'Confirm',
+                        command: 'confirm',
+                    },
+                    {
+                        el: this.createButton('cancel'),
+                        tooltip: 'Cancel',
+                        command: 'cancel'
+                    }],
+                ['heading', 'bold', 'italic', 'strike'],
+                ['hr', 'quote'],
+                ['ul', 'ol', 'task', 'indent', 'outdent'],
+                ['table', 'image', 'link'],
+                ['code', 'codeblock']
+            ];
+            document.addEventListener('click', (e) => {
+                if (this.viewer)
+                    return;
+                const target = e.target;
+                const currentText = target.closest('i-page-text');
+                if (!currentText || !currentText.isEqualNode(this)) {
+                    const isButton = target.classList.contains('tui-colorpicker-palette-button') ||
+                        target.classList.contains('toastui-editor-toolbar-icons');
+                    if (!isButton)
+                        this.toggleEditor(false);
+                }
+            });
         }
         render() {
-            return (this.$render("i-panel", { id: 'pnlViewer' },
-                this.$render("i-markdown", { id: 'mdViewer', width: '100%', height: '100%', theme: 'dark' })));
+            return (this.$render("i-panel", { id: 'pnlViewer', maxWidth: "100%" },
+                this.$render("i-markdown", { id: 'mdViewer', width: '100%', height: '100%', onDblClick: this.handleDbClick }),
+                this.$render("i-markdown-editor", { id: 'mdEditor', width: '100%', height: "auto", minHeight: 100, hideModeSwitch: true, viewer: false, mode: "wysiwyg", class: index_css_1.customEditorStyle, visible: false })));
         }
     };
     ScomPageText = __decorate([

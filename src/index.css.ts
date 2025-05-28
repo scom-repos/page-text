@@ -153,3 +153,11 @@ export const customListStyles = Styles.style({
         }
     }
 });
+
+export const customEditorStyle = Styles.style({
+    $nest: {
+        '.toastui-editor-contents': {
+            cursor: 'text'
+        }
+    }
+});

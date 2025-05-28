@@ -2,6 +2,7 @@
   "env": "testnet",
   "main": "@modules/main",
   "bundle": true,
+  "version": "0.1.0",
   "moduleDir": "modules",
   "modules": {
     "@modules/main": {

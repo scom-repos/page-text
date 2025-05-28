@@ -11,6 +11,7 @@ export interface IFontSettings {
   borderColor?: string;
   borderHeight?: string | number;
   borderMargin?: ISpace;
+  viewer?: boolean;
 }
 
 export interface IConfig {
