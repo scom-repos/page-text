@@ -23,6 +23,10 @@ export class Model {
     this._options?.onUpdateBlock();
   }
 
+  get tag() {
+    return this._tag;
+  }
+
   setData(data: IConfig) {
     if (data?.value) {
       data.value = data.value.replace('Â©', '©');
