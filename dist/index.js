@@ -242,6 +242,7 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
         handleDbClick() {
             if (this.viewer)
                 return;
+            document.addEventListener('click', this.handleClickEvent);
             this.toggleEditor(true);
             this.mdEditor.value = this.model.data;
         }
@@ -280,11 +281,26 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
             };
             return button;
         }
+        handleClick(e) {
+            if (this.viewer)
+                return;
+            const target = e.target;
+            const currentText = target.closest('i-page-text');
+            if (!currentText || !currentText.isEqualNode(this)) {
+                const isButton = target.classList.contains('tui-colorpicker-palette-button') ||
+                    target.classList.contains('toastui-editor-toolbar-icons');
+                if (!isButton) {
+                    this.toggleEditor(false);
+                    document.removeEventListener('click', this.handleClickEvent);
+                }
+            }
+        }
         async init() {
             super.init();
             this.maxWidth = "100%";
             this.onUpdateBlock = this.onUpdateBlock.bind(this);
             this.updateMarkdown = this.updateMarkdown.bind(this);
+            this.handleClickEvent = this.handleClick.bind(this);
             this.model = new index_1.Model({
                 onUpdateBlock: this.onUpdateBlock,
                 onUpdateTheme: this.updateMarkdown
@@ -314,18 +330,9 @@ define("@scom/page-text", ["require", "exports", "@ijstech/components", "@scom/p
                 ['table', 'image', 'link'],
                 ['code', 'codeblock']
             ];
-            document.addEventListener('click', (e) => {
-                if (this.viewer)
-                    return;
-                const target = e.target;
-                const currentText = target.closest('i-page-text');
-                if (!currentText || !currentText.isEqualNode(this)) {
-                    const isButton = target.classList.contains('tui-colorpicker-palette-button') ||
-                        target.classList.contains('toastui-editor-toolbar-icons');
-                    if (!isButton)
-                        this.toggleEditor(false);
-                }
-            });
+        }
+        onHide() {
+            document.removeEventListener('click', this.handleClick.bind(this));
         }
         render() {
             return (this.$render("i-panel", { id: 'pnlViewer', maxWidth: "100%" },

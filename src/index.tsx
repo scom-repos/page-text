@@ -45,6 +45,7 @@ export default class ScomPageText extends Module {
     private mdEditor: MarkdownEditor;
     private model: Model;
     private customStyle: string;
+    private handleClickEvent: any;
 
     constructor(parent: Container, options: any) {
         super(parent, options);
@@ -82,6 +83,7 @@ export default class ScomPageText extends Module {
 
     private handleDbClick() {
         if (this.viewer) return;
+        document.addEventListener('click', this.handleClickEvent);
         this.toggleEditor(true);
         this.mdEditor.value = this.model.data;
     }
@@ -124,11 +126,27 @@ export default class ScomPageText extends Module {
         return button;
     }
 
+    private handleClick(e: MouseEvent) {
+        if (this.viewer) return;
+        const target = e.target as HTMLElement;
+        const currentText = target.closest('i-page-text');
+
+        if (!currentText || !currentText.isEqualNode(this)) {
+            const isButton = target.classList.contains('tui-colorpicker-palette-button') ||
+                target.classList.contains('toastui-editor-toolbar-icons');
+            if (!isButton) {
+                this.toggleEditor(false);
+                document.removeEventListener('click', this.handleClickEvent);
+            }
+        }
+    }
+
     async init() {
         super.init();
         this.maxWidth = "100%"
         this.onUpdateBlock = this.onUpdateBlock.bind(this);
         this.updateMarkdown = this.updateMarkdown.bind(this);
+        this.handleClickEvent = this.handleClick.bind(this);
         this.model = new Model({
             onUpdateBlock: this.onUpdateBlock,
             onUpdateTheme: this.updateMarkdown
@@ -158,18 +176,10 @@ export default class ScomPageText extends Module {
             ['table', 'image', 'link'],
             ['code', 'codeblock']
         ]
+    }
 
-        document.addEventListener('click', (e) => {
-            if (this.viewer) return;
-            const target = e.target as HTMLElement;
-            const currentText = target.closest('i-page-text');
-
-            if (!currentText || !currentText.isEqualNode(this)) {
-                const isButton = target.classList.contains('tui-colorpicker-palette-button') ||
-                    target.classList.contains('toastui-editor-toolbar-icons');
-                if (!isButton) this.toggleEditor(false);
-            }
-        });
+    onHide() {
+        document.removeEventListener('click', this.handleClick.bind(this));
     }
 
     render() {

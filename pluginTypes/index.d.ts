@@ -86,6 +86,7 @@ declare module "@scom/page-text" {
         private mdEditor;
         private model;
         private customStyle;
+        private handleClickEvent;
         constructor(parent: Container, options: any);
         get data(): string;
         set data(value: string);
@@ -113,7 +114,9 @@ declare module "@scom/page-text" {
             getActions?: undefined;
         })[];
         private createButton;
+        private handleClick;
         init(): Promise<void>;
+        onHide(): void;
         render(): any;
     }
 }
