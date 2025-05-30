@@ -89,21 +89,41 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
     });
     const getMarkdownStyles = (config) => {
         const cssRules = {
-            'h1': {},
-            'h2': {},
-            'h3': {},
-            'h4': {},
-            'h5': {},
-            'h6': {},
-            'p': {},
-            'a': {
-                color: 'unset'
-            },
-            '.toastui-editor-contents': {},
-            'hr': {},
-            "ul": {}
+            '.toastui-editor-contents': {
+                $nest: {
+                    'h1': {
+                        lineHeight: 'initial'
+                    },
+                    'h2': {
+                        lineHeight: 'initial'
+                    },
+                    'h3': {
+                        lineHeight: 'initial'
+                    },
+                    'h4': {
+                        lineHeight: 'initial'
+                    },
+                    'h5': {
+                        lineHeight: 'initial'
+                    },
+                    'h6': {
+                        lineHeight: 'initial'
+                    },
+                    'p': {
+                        lineHeight: 'initial'
+                    },
+                    'a': {
+                        color: 'unset',
+                        lineHeight: 'initial'
+                    },
+                    "ul": {},
+                    'hr': {
+                        "margin": "16px auto"
+                    }
+                }
+            }
         };
-        const { font, textAlign, background, padding, margin, width, maxWidth, borderWidth, borderColor, borderHeight, borderMargin } = config;
+        const { font, textAlign, background, padding, margin, width, maxWidth, borderWidth, borderColor, borderHeight, borderMargin, lineHeight } = config;
         if (textAlign) {
             cssRules['.toastui-editor-contents']['textAlign'] = textAlign;
         }
@@ -124,6 +144,9 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
         }
         if (font?.transform) {
             setValue(cssRules, 'textTransform', font.transform);
+        }
+        if (lineHeight !== undefined) {
+            setValue(cssRules, 'lineHeight', lineHeight);
         }
         if (padding?.top) {
             cssRules['.toastui-editor-contents']['paddingTop'] = getValue(padding.top);
@@ -150,26 +173,26 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
             setValue(cssRules, 'marginRight', margin.right);
         }
         if (borderColor) {
-            cssRules['hr']['backgroundColor'] = borderColor;
-            cssRules['hr']['borderColor'] = 'transparent';
+            cssRules['.toastui-editor-contents']['$nest']['hr']['backgroundColor'] = borderColor;
+            cssRules['.toastui-editor-contents']['$nest']['hr']['borderColor'] = 'transparent';
         }
         if (borderWidth !== undefined) {
-            cssRules['hr']['width'] = getValue(borderWidth);
+            cssRules['.toastui-editor-contents']['$nest']['hr']['width'] = getValue(borderWidth);
         }
         if (borderHeight !== undefined) {
-            cssRules['hr']['height'] = getValue(borderHeight);
+            cssRules['.toastui-editor-contents']['$nest']['hr']['height'] = getValue(borderHeight);
         }
         if (borderMargin?.top) {
-            cssRules['hr']['marginTop'] = getValue(borderMargin.top);
+            cssRules['.toastui-editor-contents']['$nest']['hr']['marginTop'] = getValue(borderMargin.top);
         }
         if (borderMargin?.bottom) {
-            cssRules['hr']['marginBottom'] = getValue(borderMargin.bottom);
+            cssRules['.toastui-editor-contents']['$nest']['hr']['marginBottom'] = getValue(borderMargin.bottom);
         }
         if (borderMargin?.left) {
-            cssRules['hr']['marginLeft'] = getValue(borderMargin.left);
+            cssRules['.toastui-editor-contents']['$nest']['hr']['marginLeft'] = getValue(borderMargin.left);
         }
         if (borderMargin?.right) {
-            cssRules['hr']['marginRight'] = getValue(borderMargin.right);
+            cssRules['.toastui-editor-contents']['$nest']['hr']['marginRight'] = getValue(borderMargin.right);
         }
         const customStyle = components_1.Styles.style({
             $nest: cssRules
@@ -182,19 +205,29 @@ define("@scom/page-text/index.css.ts", ["require", "exports", "@ijstech/componen
     }
     function setValue(cssRules, key, value) {
         value = getValue(value);
-        cssRules['h1'][key] = value;
-        cssRules['h2'][key] = value;
-        cssRules['h3'][key] = value;
-        cssRules['h4'][key] = value;
-        cssRules['h5'][key] = value;
-        cssRules['h6'][key] = value;
-        cssRules['p'][key] = value;
-        cssRules['ul'][key] = value;
+        cssRules['.toastui-editor-contents']['$nest']['h1'][key] = value;
+        cssRules['.toastui-editor-contents']['$nest']['h2'][key] = value;
+        cssRules['.toastui-editor-contents']['$nest']['h3'][key] = value;
+        cssRules['.toastui-editor-contents']['$nest']['h4'][key] = value;
+        cssRules['.toastui-editor-contents']['$nest']['h5'][key] = value;
+        cssRules['.toastui-editor-contents']['$nest']['h6'][key] = value;
+        cssRules['.toastui-editor-contents']['$nest']['p'][key] = value;
+        cssRules['.toastui-editor-contents']['$nest']['ul'][key] = value;
     }
     exports.customListStyles = components_1.Styles.style({
         $nest: {
-            'ul': {
-                marginTop: "0px"
+            '.toastui-editor-contents ul, .toastui-editor-contents menu, .toastui-editor-contents ol, .toastui-editor-contents dir': {
+                marginTop: "0px",
+                paddingLeft: "0px"
+            },
+            '.toastui-editor-contents ul > li::before': {
+                display: 'none'
+            },
+            '.toastui-editor-contents a': {
+                textDecoration: 'none'
+            },
+            '.toastui-editor-contents a:hover': {
+                color: Theme.colors.primary.main
             }
         }
     });

@@ -17,6 +17,7 @@ declare module "@scom/page-text/interface.ts" {
         borderHeight?: string | number;
         borderMargin?: ISpace;
         viewer?: boolean;
+        lineHeight?: string | number | 'normal' | 'initial' | 'inherit';
     }
     export interface IConfig {
         value?: string;
